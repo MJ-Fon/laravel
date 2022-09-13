@@ -9,7 +9,7 @@ class Kategorija extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'naziv',
+        'naziv_kategorije',
  
     ];
     public function proizvod()
