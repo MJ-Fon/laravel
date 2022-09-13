@@ -22,3 +22,8 @@ Route::get('proizvodi/{id}', [ProizvodController::class, 'show']);
 
 Route::get('porudzbine', [PorudzbinaController::class, 'index']);
 Route::get('porudzbine/{id}', [PorudzbinaController::class, 'show']);
+Route::delete('porudzbine/{id}', [PorudzbinaController::class, 'destroy']);
+Route::put('porudzbine/{id}', [PorudzbinaController::class, 'update']);
+
+Route::post('/porudzbine', [PorudzbinaController::class, 'store']);
+

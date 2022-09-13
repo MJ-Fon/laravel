@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PorudzbinaResource;
 use App\Models\Porudzbina;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PorudzbinaController extends Controller
 {
@@ -36,7 +37,24 @@ class PorudzbinaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'datum' => 'required|string',
+            'kolicina' => 'required|integer',
+            'proizvod_id' => 'required|integer', 
+ 
+        ]);
+
+        if ($validator->fails()) 
+            return response()->json($validator->errors());
+        $d = Porudzbina::create([
+            'datum' => $request->datum, 
+            'kolicina' => $request->kolicina, 
+            'proizvod_id' => $request->proizvod_id, 
+
+
+        ]);
+        $d->save();
+        return response()->json(['Objekat je  kreiran', new PorudzbinaResource($d)]);
     }
 
     /**
@@ -68,9 +86,28 @@ class PorudzbinaController extends Controller
      * @param  \App\Models\Porudzbina  $porudzbina
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Porudzbina $porudzbina)
+    public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+           
+            'datum' => 'string',
+            'kolicina' => 'integer', 
+            'proizvod_id' => 'integer',
+             
+        ]);
+
+        if ($validator->fails()) 
+            return response()->json($validator->errors());
+        $d = Porudzbina::find($id);
+        if($d){
+            $d->datum=$request->datum;
+            $d->kolicina=$request->kolicina;
+            $d->proizvod_id=$request->proizvod_id; 
+            $d->save();
+            return response()->json( ["Uspesno izmenjeno!",new PorudzbinaResource($d)]);
+        }else{
+            return response()->json("Objekat ne postoji u bazi");
+        }
     }
 
     /**
@@ -79,8 +116,14 @@ class PorudzbinaController extends Controller
      * @param  \App\Models\Porudzbina  $porudzbina
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Porudzbina $porudzbina)
+    public function destroy($id)
     {
-        //
+        $d = Porudzbina::find($id);
+        if($d){
+            $d->delete();
+            return response()->json("Objekat uspesno obrisan");
+        }else{
+            return response()->json("Objekat ne postoji u bazi");
+        }
     }
 }
