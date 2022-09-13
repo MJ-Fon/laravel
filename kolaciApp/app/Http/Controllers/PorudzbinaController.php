@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PorudzbinaResource;
 use App\Models\Porudzbina;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class PorudzbinaController extends Controller
      */
     public function index()
     {
-        return Porudzbina::all();
+        return PorudzbinaResource::collection(Porudzbina::all());
     }
 
     /**
@@ -46,7 +47,7 @@ class PorudzbinaController extends Controller
      */
     public function show($id)
     {
-        return Porudzbina::find($id);
+        return new PorudzbinaResource( Porudzbina::find($id));
     }
 
     /**
