@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PorudzbinaController;
+use App\Http\Controllers\ProizvodController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+Route::get('proizvodi', [ProizvodController::class, 'index']);
+Route::get('proizvodi/{id}', [ProizvodController::class, 'show']);
+
+Route::get('porudzbine', [PorudzbinaController::class, 'index']);
+Route::get('porudzbine/{id}', [PorudzbinaController::class, 'show']);
